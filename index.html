@@ -167,22 +167,33 @@
         // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         
-        // Расширяем окно на весь экран
-        tg.expand();
+        // Проверка, запущено ли приложение внутри Telegram
+        const isInTelegram = tg && tg.initDataUnsafe && Object.keys(tg.initDataUnsafe).length > 0;
+        
+        if (isInTelegram) {
+            // Расширяем окно на весь экран
+            tg.expand();
+        }
         
         // Добавляем режим отладки
         console.log('Telegram WebApp params:', {
-            initData: tg.initData,
-            colorScheme: tg.colorScheme,
-            themeParams: tg.themeParams
+            isInTelegram: isInTelegram,
+            initData: tg ? tg.initData : 'недоступно',
+            colorScheme: tg ? tg.colorScheme : 'недоступно',
+            themeParams: tg ? tg.themeParams : 'недоступно'
         });
         
         // Применение темы Telegram
         document.addEventListener('DOMContentLoaded', function() {
-            // Проверяем, загружен ли Telegram WebApp
-            if (tg) {
+            const submitButton = document.querySelector('.submit-button');
+            
+            // Проверяем, запущено ли приложение внутри Telegram
+            if (isInTelegram) {
                 console.log('Telegram WebApp инициализирован');
                 document.body.classList.add('telegram-app');
+                
+                // Скрываем HTML-кнопку
+                submitButton.style.display = 'none';
                 
                 if (tg.colorScheme) {
                     document.body.classList.add('theme-' + tg.colorScheme);
@@ -205,8 +216,9 @@
                     });
                 }
             } else {
+                console.log('Приложение запущено вне Telegram');
                 // Если не в Telegram, показываем обычную кнопку отправки
-                document.querySelector('.submit-button').style.display = 'block';
+                submitButton.style.display = 'block';
             }
         });
         
