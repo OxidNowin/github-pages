@@ -2,132 +2,287 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WebApp Telegram</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <style>
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            color: var(--tg-theme-text-color, #000000);
+            background-color: var(--tg-theme-bg-color, #ffffff);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--tg-theme-text-color, #000000);
+        }
+        input[type="text"], 
+        input[type="number"], 
+        input[type="url"], 
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid var(--tg-theme-hint-color, #999999);
+            border-radius: 8px;
             background-color: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
         }
-        a {
-            color: var(--tg-theme-link-color, #0d6efd);
+        input::placeholder {
+            color: var(--tg-theme-hint-color, #999999);
         }
-        .btn-primary {
-            background-color: var(--tg-theme-button-color, #007bff);
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        label.checkbox-label {
+            display: flex;
+            align-items: center;
+        }
+        label.checkbox-label input {
+            margin-left: 8px;
+        }
+        button {
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        button.remove {
+            background-color: var(--tg-theme-destructive-text-color, #f44336);
             color: var(--tg-theme-button-text-color, #ffffff);
         }
-        .btn-danger {
-            background-color: var(--tg-theme-destructive-text-color, #dc3545);
+        .keyword-row {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
         }
-        .form-control {
-            background-color: var(--tg-theme-secondary-bg-color, #f8f9fa);
-            color: var(--tg-theme-text-color, #000000);
+        .keyword-input {
+            flex-grow: 1;
+            margin-right: 10px;
         }
-        .container {
-            background-color: var(--tg-theme-section-bg-color, #f1f1f1);
-            padding: 20px;
+        .pf-input {
+            width: 80px;
+            margin-right: 10px;
+        }
+        .error {
+            color: var(--tg-theme-destructive-text-color, #ff0000);
+            font-size: 0.9em;
+            margin-top: 3px;
+        }
+        h1 {
+            color: var(--tg-theme-accent-text-color, var(--tg-theme-text-color, #000000));
+        }
+        .section {
+            background-color: var(--tg-theme-section-bg-color, var(--tg-theme-secondary-bg-color, #f5f5f5));
+            padding: 15px;
             border-radius: 10px;
+            margin-bottom: 15px;
         }
-        .alert {
-            background-color: var(--tg-theme-destructive-text-color, #dc3545);
+        .section-header {
+            color: var(--tg-theme-section-header-text-color, var(--tg-theme-text-color, #000000));
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .separator {
+            height: 1px;
+            background-color: var(--tg-theme-section-separator-color, var(--tg-theme-hint-color, #cccccc));
+            margin: 15px 0;
+        }
+        .submit-button {
+            background-color: var(--tg-theme-button-color, #3390ec);
             color: var(--tg-theme-button-text-color, #ffffff);
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            display: none;
-        }
-        .form-text {
-            color: var(--tg-theme-hint-color, #6c757d);
+            font-weight: bold;
+            padding: 12px 20px;
+            width: 100%;
+            margin-top: 15px;
         }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (window.Telegram && Telegram.WebApp) {
-                document.body.style.backgroundColor = Telegram.WebApp.themeParams.bg_color || "#ffffff";
-                document.body.style.color = Telegram.WebApp.themeParams.text_color || "#000000";
-            }
-        });
-    </script>
 </head>
-<body class="container mt-4">
-    <h3 class="mb-3">Настройки поиска</h3>
-    <form id="search-form">
-        <div class="mb-3">
-            <label for="days" class="form-label">Количество дней:</label>
-            <input type="number" class="form-control" id="days" min="1" max="60" required>
-            <div class="form-text">Введите количество дней от 1 до 60.</div>
-        </div>
-        
-        <div class="mb-3">
-            <label for="url" class="form-label">Ссылка:</label>
-            <input type="url" class="form-control" id="url" pattern="https://www.avito.ru/.*" placeholder="https://www.avito.ru/" required>
-            <div class="form-text">Ссылка должна начинаться с https://www.avito.ru/</div>
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Ключевые слова:</label>
-            <div id="keywords-container">
-                <div class="input-group mb-2 keyword-entry">
-                    <input type="text" class="form-control keyword" placeholder="Введите ключевое слово" required>
-                    <input type="number" class="form-control pf-count" min="5" max="25" placeholder="Количество ПФ" required>
-                    <button type="button" class="btn btn-danger remove-keyword">Удалить</button>
-                </div>
-            </div>
-            <button type="button" class="btn btn-primary" id="add-keyword">Добавить ключевое слово</button>
-        </div>
-        
-        <div class="alert" id="alert-message">Должно быть хотя бы одно ключевое слово!</div>
-        
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="include-contacts">
-            <label class="form-check-label" for="include-contacts">Включить контакты</label>
-        </div>
-        
-        <button type="submit" class="btn btn-success">Сохранить</button>
-    </form>
+<body>
+    <h1>Форма</h1>
     
-    <script>
-        document.getElementById('add-keyword').addEventListener('click', function () {
-            const container = document.getElementById('keywords-container');
-            const entry = document.createElement('div');
-            entry.className = 'input-group mb-2 keyword-entry';
-            entry.innerHTML = `
-                <input type="text" class="form-control keyword" placeholder="Введите ключевое слово" required>
-                <input type="number" class="form-control pf-count" min="5" max="25" placeholder="Количество ПФ" required>
-                <button type="button" class="btn btn-danger remove-keyword">Удалить</button>
-            `;
-            container.appendChild(entry);
-        });
+    <form id="myForm">
+        <div class="section">
+            <div class="section-header">Основные параметры</div>
+            <div class="form-group">
+                <label for="days">Количество дней:</label>
+                <input type="number" id="days" min="1" max="60" required>
+                <div class="error" id="days-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="link">Ссылка:</label>
+                <input type="url" id="link" pattern="https://www\.avito\.ru/.*" placeholder="https://www.avito.ru/" required>
+                <div class="error" id="link-error"></div>
+            </div>
+        </div>
+        
+        <div class="separator"></div>
+        
+        <div class="section">
+            <div class="section-header">Ключевые слова и ПФ</div>
+            <div class="form-group">
+                <div id="keywords-container">
+                    <div class="keyword-row">
+                        <input type="text" class="keyword-input" placeholder="Ключевое слово" required>
+                        <input type="number" class="pf-input" min="5" max="25" placeholder="ПФ" required>
+                        <button type="button" class="remove" onclick="removeKeyword(this)">Удалить</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addKeyword()">Добавить ключевое слово</button>
+            </div>
+        </div>
+        
+        <div class="separator"></div>
+        
+        <div class="section">
+            <div class="form-group">
+                <label class="checkbox-label">
+                    С контактами
+                    <input type="checkbox" id="contacts">
+                </label>
+            </div>
+        </div>
+        
+        <button type="submit" class="submit-button">Отправить</button>
+    </form>
 
-        document.getElementById('keywords-container').addEventListener('click', function (e) {
-            if (e.target.classList.contains('remove-keyword')) {
-                const keywords = document.querySelectorAll('.keyword-entry');
-                if (keywords.length > 1) {
-                    e.target.parentElement.remove();
-                } else {
-                    document.getElementById('alert-message').style.display = 'block';
-                    setTimeout(() => {
-                        document.getElementById('alert-message').style.display = 'none';
-                    }, 3000);
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        
+        // Расширяем окно на весь экран
+        tg.expand();
+        
+        // Добавляем режим отладки
+        console.log('Telegram WebApp params:', {
+            initData: tg.initData,
+            colorScheme: tg.colorScheme,
+            themeParams: tg.themeParams
+        });
+        
+        // Применение темы Telegram
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверяем, загружен ли Telegram WebApp
+            if (tg) {
+                console.log('Telegram WebApp инициализирован');
+                document.body.classList.add('telegram-app');
+                
+                if (tg.colorScheme) {
+                    document.body.classList.add('theme-' + tg.colorScheme);
+                }
+                
+                // Включаем кнопку назад, если мы не в прямой ссылке
+                if (tg.BackButton && !tg.initDataUnsafe.start_param) {
+                    tg.BackButton.show();
+                    tg.BackButton.onClick(function() {
+                        tg.close();
+                    });
+                }
+                
+                // Настраиваем MainButton
+                if (tg.MainButton) {
+                    tg.MainButton.setText('Отправить');
+                    tg.MainButton.show();
+                    tg.MainButton.onClick(function() {
+                        document.getElementById('myForm').dispatchEvent(new Event('submit'));
+                    });
                 }
             }
         });
-
-        document.getElementById('search-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const keywords = Array.from(document.querySelectorAll('.keyword')).map(input => input.value.trim());
-            const pfCounts = Array.from(document.querySelectorAll('.pf-count')).map(input => input.value.trim());
-            const data = {
-                days: document.getElementById('days').value,
-                url: document.getElementById('url').value,
-                keywords: keywords.map((keyword, index) => ({ keyword, pf: pfCounts[index] })),
-                includeContacts: document.getElementById('include-contacts').checked
-            };
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.sendData(JSON.stringify(data));
-                Telegram.WebApp.close();
+        
+        function addKeyword() {
+            const container = document.getElementById('keywords-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'keyword-row';
+            newRow.innerHTML = `
+                <input type="text" class="keyword-input" placeholder="Ключевое слово" required>
+                <input type="number" class="pf-input" min="5" max="25" placeholder="ПФ" required>
+                <button type="button" class="remove" onclick="removeKeyword(this)">Удалить</button>
+            `;
+            container.appendChild(newRow);
+        }
+        
+        function removeKeyword(button) {
+            const container = document.getElementById('keywords-container');
+            const row = button.parentNode;
+            
+            // Проверяем, что это не последняя строка
+            if (container.children.length > 1) {
+                container.removeChild(row);
+            } else {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+                tg.showPopup({
+                    title: 'Ошибка',
+                    message: 'Должно быть минимум одно ключевое слово',
+                    buttons: [{type: 'ok'}]
+                });
+            }
+        }
+        
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let isValid = true;
+            
+            // Валидация количества дней
+            const days = document.getElementById('days');
+            const daysError = document.getElementById('days-error');
+            if (days.value < 1 || days.value > 60) {
+                daysError.textContent = 'Количество дней должно быть от 1 до 60';
+                isValid = false;
+            } else {
+                daysError.textContent = '';
+            }
+            
+            // Валидация ссылки
+            const link = document.getElementById('link');
+            const linkError = document.getElementById('link-error');
+            const linkRegex = /^https:\/\/www\.avito\.ru\/.+/;
+            if (!linkRegex.test(link.value)) {
+                linkError.textContent = 'Ссылка должна начинаться с https://www.avito.ru/';
+                isValid = false;
+            } else {
+                linkError.textContent = '';
+            }
+            
+            if (isValid) {
+                console.log('Форма отправлена успешно');
+                // Сбор данных формы
+                const formData = {
+                    days: days.value,
+                    link: link.value,
+                    keywords: Array.from(document.querySelectorAll('.keyword-row')).map(row => {
+                        return {
+                            keyword: row.querySelector('.keyword-input').value,
+                            pf: row.querySelector('.pf-input').value
+                        };
+                    }),
+                    contacts: document.getElementById('contacts').checked
+                };
+                
+                // Отправка данных в Telegram
+                if (tg.MainButton) {
+                    tg.sendData(JSON.stringify(formData));
+                }
+                
+                console.log('Отправленные данные:', formData);
+            } else if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('error');
             }
         });
     </script>
