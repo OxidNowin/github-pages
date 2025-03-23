@@ -38,6 +38,9 @@
             margin-top: 10px;
             display: none;
         }
+        .form-text {
+            color: var(--tg-theme-hint-color, #6c757d);
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -54,11 +57,13 @@
         <div class="mb-3">
             <label for="days" class="form-label">Количество дней:</label>
             <input type="number" class="form-control" id="days" min="1" max="60" required>
+            <div class="form-text">Введите количество дней от 1 до 60.</div>
         </div>
         
         <div class="mb-3">
             <label for="url" class="form-label">Ссылка:</label>
             <input type="url" class="form-control" id="url" pattern="https://www.avito.ru/.*" placeholder="https://www.avito.ru/" required>
+            <div class="form-text">Ссылка должна начинаться с https://www.avito.ru/</div>
         </div>
         
         <div class="mb-3">
