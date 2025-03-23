@@ -114,11 +114,10 @@
     </style>
 </head>
 <body>
-    <h1>Форма</h1>
+    <h1>Форма заявки на ПФ</h1>
     
     <form id="myForm">
         <div class="section">
-            <div class="section-header">Основные параметры</div>
             <div class="form-group">
                 <label for="days">Количество дней:</label>
                 <input type="number" id="days" min="1" max="60" required>
@@ -156,6 +155,12 @@
                 <label class="checkbox-label">
                     С контактами
                     <input type="checkbox" id="contacts">
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="checkbox-label">
+                    Искать по всем регионам
+                    <input type="checkbox" id="all_regions">
                 </label>
             </div>
         </div>
@@ -309,7 +314,8 @@
                             pf: row.querySelector('.pf-input').value
                         };
                     }),
-                    contacts: document.getElementById('contacts').checked
+                    contacts: document.getElementById('contacts').checked,
+                    all_regions: document.getElementById('all_regions').checked
                 };
                 
                 // Отправка данных в Telegram
