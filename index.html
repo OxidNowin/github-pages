@@ -108,6 +108,9 @@
             width: 100%;
             margin-top: 15px;
         }
+        .telegram-app .submit-button {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -124,7 +127,7 @@
             
             <div class="form-group">
                 <label for="link">Ссылка:</label>
-                <input type="url" id="link" pattern="https://www\.avito\.ru/.*" placeholder="https://www.avito.ru/" required>
+                <input type="url" id="link" placeholder="https://www.avito.ru/" required>
                 <div class="error" id="link-error"></div>
             </div>
         </div>
@@ -139,6 +142,7 @@
                         <input type="text" class="keyword-input" placeholder="Ключевое слово" required>
                         <input type="number" class="pf-input" min="5" max="25" placeholder="ПФ" required>
                         <button type="button" class="remove" onclick="removeKeyword(this)">Удалить</button>
+                        <div class="error keyword-error"></div>
                     </div>
                 </div>
                 <button type="button" onclick="addKeyword()">Добавить ключевое слово</button>
@@ -200,6 +204,9 @@
                         document.getElementById('myForm').dispatchEvent(new Event('submit'));
                     });
                 }
+            } else {
+                // Если не в Telegram, показываем обычную кнопку отправки
+                document.querySelector('.submit-button').style.display = 'block';
             }
         });
         
@@ -211,6 +218,7 @@
                 <input type="text" class="keyword-input" placeholder="Ключевое слово" required>
                 <input type="number" class="pf-input" min="5" max="25" placeholder="ПФ" required>
                 <button type="button" class="remove" onclick="removeKeyword(this)">Удалить</button>
+                <div class="error keyword-error"></div>
             `;
             container.appendChild(newRow);
         }
@@ -252,12 +260,29 @@
             // Валидация ссылки
             const link = document.getElementById('link');
             const linkError = document.getElementById('link-error');
-            const linkRegex = /^https:\/\/www\.avito\.ru\/.+/;
+            const linkRegex = /avito\.ru/;
             if (!linkRegex.test(link.value)) {
-                linkError.textContent = 'Ссылка должна начинаться с https://www.avito.ru/';
+                linkError.textContent = 'Ссылка должна содержать avito.ru';
                 isValid = false;
             } else {
                 linkError.textContent = '';
+            }
+            
+            // Валидация ключевых слов
+            const keywordInputs = document.querySelectorAll('.keyword-input');
+            const keywordErrors = document.querySelectorAll('.keyword-error');
+            let hasKeyword = false;
+            
+            keywordInputs.forEach((input, index) => {
+                if (input.value.trim() !== '') {
+                    hasKeyword = true;
+                    keywordErrors[index].textContent = '';
+                }
+            });
+            
+            if (!hasKeyword) {
+                keywordErrors[0].textContent = 'Введите хотя бы одно ключевое слово';
+                isValid = false;
             }
             
             if (isValid) {
