@@ -3,170 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма</title>
+    <title>Форма заявки на ПФ</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <style>
+        :root {
+            --accent-color: #2AABEE;
+            --border-radius: 10px;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
             color: var(--tg-theme-text-color, #000000);
+            background-color: var(--tg-theme-bg-color, #f5f5f5);
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--tg-theme-accent-text-color, var(--tg-theme-text-color, #000000));
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .card {
             background-color: var(--tg-theme-bg-color, #ffffff);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
+
+        .card-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.1));
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .card-content {
+            padding: 16px;
+        }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
             color: var(--tg-theme-text-color, #000000);
         }
+
         input[type="text"], 
         input[type="number"], 
         input[type="url"], 
         select {
             width: 100%;
-            padding: 8px;
+            padding: 12px;
             box-sizing: border-box;
-            border: 1px solid var(--tg-theme-hint-color, #999999);
+            border: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.2));
             border-radius: 8px;
             background-color: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
+            font-size: 15px;
         }
+
         input::placeholder {
             color: var(--tg-theme-hint-color, #999999);
         }
-        input[type="checkbox"] {
-            width: auto;
-            margin-right: 8px;
-            vertical-align: middle;
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
         }
-        label.checkbox-label {
+
+        .switch-container {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            padding: 12px 0;
         }
-        label.checkbox-label input {
-            margin-left: 8px;
+
+        .switch-label {
+            font-size: 15px;
+            color: var(--tg-theme-text-color, #000000);
         }
-        button {
-            background-color: var(--tg-theme-button-color, #3390ec);
+
+        /* Telegram Switch Style */
+        .tg-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+
+        .tg-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .tg-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--tg-theme-hint-color, #ccc);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .tg-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .tg-slider {
+            background-color: var(--tg-theme-button-color, #2AABEE);
+        }
+
+        input:focus + .tg-slider {
+            box-shadow: 0 0 1px var(--tg-theme-button-color, #2AABEE);
+        }
+
+        input:checked + .tg-slider:before {
+            transform: translateX(22px);
+        }
+
+        .error {
+            color: var(--tg-theme-destructive-text-color, #ff3b30);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .keyword-row {
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .keyword-input {
+            margin-bottom: 8px;
+        }
+
+        .btn-add {
+            background-color: var(--tg-theme-button-color, #2AABEE);
             color: var(--tg-theme-button-text-color, #ffffff);
-            padding: 10px 15px;
             border: none;
             border-radius: 8px;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-        button.remove {
-            background-color: var(--tg-theme-destructive-text-color, #f44336);
-            color: var(--tg-theme-button-text-color, #ffffff);
-        }
-        .keyword-row {
-            display: flex;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-        .keyword-input {
-            flex-grow: 1;
-            margin-right: 10px;
-        }
-        .pf-input {
-            width: 80px;
-            margin-right: 10px;
-        }
-        .error {
-            color: var(--tg-theme-destructive-text-color, #ff0000);
-            font-size: 0.9em;
-            margin-top: 3px;
-        }
-        h1 {
-            color: var(--tg-theme-accent-text-color, var(--tg-theme-text-color, #000000));
-        }
-        .section {
-            background-color: var(--tg-theme-section-bg-color, var(--tg-theme-secondary-bg-color, #f5f5f5));
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        .section-header {
-            color: var(--tg-theme-section-header-text-color, var(--tg-theme-text-color, #000000));
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .separator {
-            height: 1px;
-            background-color: var(--tg-theme-section-separator-color, var(--tg-theme-hint-color, #cccccc));
-            margin: 15px 0;
-        }
-        .submit-button {
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            font-weight: bold;
-            padding: 12px 20px;
+            padding: 12px 16px;
+            font-size: 15px;
+            font-weight: 500;
             width: 100%;
-            margin-top: 15px;
+            cursor: pointer;
+            margin-top: 16px;
         }
-        .telegram-app .submit-button {
-            display: none;
+
+        .btn-remove {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: var(--tg-theme-destructive-text-color, #ff3b30);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 0;
+        }
+
+        .submit-button {
+            background-color: var(--tg-theme-button-color, #2AABEE);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 0;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 16px;
         }
     </style>
 </head>
 <body>
-    <h1>Форма заявки на ПФ</h1>
-    
-    <form id="myForm">
-        <div class="section">
-            <div class="form-group">
-                <label for="days">Количество дней:</label>
-                <input type="number" id="days" min="1" max="60" required>
-                <div class="error" id="days-error"></div>
-            </div>
-            
-            <div class="form-group">
-                <label for="link">Ссылка:</label>
-                <input type="url" id="link" placeholder="https://www.avito.ru/" required>
-                <div class="error" id="link-error"></div>
-            </div>
-        </div>
+    <div class="container">
+        <h1>Форма заявки на ПФ</h1>
         
-        <div class="separator"></div>
-        
-        <div class="section">
-            <div class="section-header">Ключевые слова и ПФ</div>
-            <div class="form-group">
-                <div id="keywords-container">
-                    <div class="keyword-row">
-                        <input type="text" class="keyword-input" placeholder="Ключевое слово" required>
-                        <input type="number" class="pf-input" min="5" max="25" placeholder="ПФ" required>
-                        <button type="button" class="remove" onclick="removeKeyword(this)">Удалить</button>
-                        <div class="error keyword-error"></div>
+        <form id="myForm">
+            <div class="card">
+                <div class="card-content">
+                    <div class="form-group">
+                        <label for="days">Количество дней:</label>
+                        <input type="number" id="days" min="1" max="60" required>
+                        <div class="error" id="days-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="link">Ссылка:</label>
+                        <input type="url" id="link" placeholder="https://www.avito.ru/" required>
+                        <div class="error" id="link-error"></div>
                     </div>
                 </div>
-                <button type="button" onclick="addKeyword()">Добавить ключевое слово</button>
             </div>
-        </div>
-        
-        <div class="separator"></div>
-        
-        <div class="section">
-            <div class="form-group">
-                <label class="checkbox-label">
-                    С контактами
-                    <input type="checkbox" id="contacts">
-                </label>
+            
+            <div class="card">
+                <div class="card-header">Ключевые слова и ПФ</div>
+                <div class="card-content">
+                    <div id="keywords-container">
+                        <div class="keyword-row">
+                            <button type="button" class="btn-remove" onclick="removeKeyword(this)">×</button>
+                            <div class="form-group">
+                                <label>Ключевое слово:</label>
+                                <input type="text" class="keyword-input" placeholder="Введите ключевое слово" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Количество ПФ:</label>
+                                <input type="number" class="pf-input" min="5" max="25" placeholder="5-25" required>
+                            </div>
+                            <div class="error keyword-error"></div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add" onclick="addKeyword()">Добавить ключевое слово</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="checkbox-label">
-                    Искать по всем регионам
-                    <input type="checkbox" id="all_regions">
-                </label>
+            
+            <div class="card">
+                <div class="card-content">
+                    <div class="switch-container">
+                        <span class="switch-label">С контактами</span>
+                        <label class="tg-switch">
+                            <input type="checkbox" id="contacts">
+                            <span class="tg-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="switch-container">
+                        <span class="switch-label">Искать по всем регионам</span>
+                        <label class="tg-switch">
+                            <input type="checkbox" id="all_regions">
+                            <span class="tg-slider"></span>
+                        </label>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <button type="submit" class="submit-button">Отправить</button>
-    </form>
+            
+            <button type="submit" class="submit-button">Отправить</button>
+        </form>
+    </div>
 
     <script>
         // Инициализация Telegram WebApp
@@ -232,9 +347,15 @@
             const newRow = document.createElement('div');
             newRow.className = 'keyword-row';
             newRow.innerHTML = `
-                <input type="text" class="keyword-input" placeholder="Ключевое слово" required>
-                <input type="number" class="pf-input" min="5" max="25" placeholder="ПФ" required>
-                <button type="button" class="remove" onclick="removeKeyword(this)">Удалить</button>
+                <button type="button" class="btn-remove" onclick="removeKeyword(this)">×</button>
+                <div class="form-group">
+                    <label>Ключевое слово:</label>
+                    <input type="text" class="keyword-input" placeholder="Введите ключевое слово" required>
+                </div>
+                <div class="form-group">
+                    <label>Количество ПФ:</label>
+                    <input type="number" class="pf-input" min="5" max="25" placeholder="5-25" required>
+                </div>
                 <div class="error keyword-error"></div>
             `;
             container.appendChild(newRow);
