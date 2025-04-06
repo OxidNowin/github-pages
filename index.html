@@ -186,8 +186,8 @@
 
         .btn-remove {
             position: absolute;
-            top: 12px;
-            right: 12px;
+            top: 5px;
+            right: 5px;
             background-color: var(--tg-theme-destructive-text-color, #ff3b30);
             color: white;
             border: none;
@@ -268,14 +268,6 @@
                             <span class="tg-slider"></span>
                         </label>
                     </div>
-                    
-                    <div class="switch-container">
-                        <span class="switch-label">Искать по всем регионам</span>
-                        <label class="tg-switch">
-                            <input type="checkbox" id="all_regions">
-                            <span class="tg-slider"></span>
-                        </label>
-                    </div>
                 </div>
             </div>
             
@@ -340,8 +332,46 @@
                 // Если не в Telegram, показываем обычную кнопку отправки
                 submitButton.style.display = 'block';
             }
+            
+            // Добавляем обработчики для всех полей ввода
+            setupInputBlur();
         });
         
+        // Функция для настройки скрытия клавиатуры
+        function setupInputBlur() {
+            // Получаем все текстовые поля, числовые поля и URL
+            const inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="url"]');
+            
+            // Добавляем обработчик события для всех полей
+            inputs.forEach(input => {
+                // При нажатии кнопки "готово" на клавиатуре
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        // Убираем фокус с поля ввода
+                        input.blur();
+                        // Скрываем клавиатуру
+                        document.activeElement.blur();
+                        e.preventDefault();
+                    }
+                });
+                
+                // При потере фокуса с поля
+                input.addEventListener('blur', function() {
+                    // Дополнительное действие для iOS
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            // Обработчики для новых полей, добавляемых динамически
+            document.addEventListener('click', function(e) {
+                // Если клик был не по полю ввода - убираем клавиатуру
+                if (!e.target.matches('input')) {
+                    document.activeElement.blur();
+                }
+            });
+        }
+        
+        // Обновляем функцию добавления ключевого слова, чтобы применять обработчики к новым полям
         function addKeyword() {
             const container = document.getElementById('keywords-container');
             const newRow = document.createElement('div');
@@ -359,6 +389,9 @@
                 <div class="error keyword-error"></div>
             `;
             container.appendChild(newRow);
+            
+            // Применяем обработчики к новым полям
+            setupInputBlur();
         }
         
         function removeKeyword(button) {
@@ -435,8 +468,7 @@
                             pf: row.querySelector('.pf-input').value
                         };
                     }),
-                    contacts: document.getElementById('contacts').checked,
-                    all_regions: document.getElementById('all_regions').checked
+                    contacts: document.getElementById('contacts').checked
                 };
                 
                 // Отправка данных в Telegram
