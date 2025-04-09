@@ -5,297 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Форма заявки на ПФ</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-    <style>
-        :root {
-            --accent-color: #2AABEE;
-            --border-radius: 10px;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--tg-theme-text-color, #000000);
-            background-color: var(--tg-theme-bg-color, #f5f5f5);
-        }
-
-        .container {
-            max-width: 100%;
-            padding: 16px;
-            box-sizing: border-box;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 20px;
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 3px solid var(--accent-color, #2AABEE);
-        }
-
-        .logo {
-            width: 100%;
-            height: auto;
-            margin-top: -20px; /* Сдвигаем изображение вверх, чтобы обрезать нижнюю часть */
-            object-fit: cover;
-            object-position: center 30%; /* Позиционируем изображение выше центра */
-        }
-
-        h1 {
-            color: var(--tg-theme-accent-text-color, var(--tg-theme-text-color, #000000));
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .card {
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.1));
-            font-weight: 500;
-            font-size: 16px;
-        }
-
-        .card-content {
-            padding: 16px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 14px;
-            color: var(--tg-theme-text-color, #000000);
-        }
-
-        input[type="text"], 
-        input[type="number"], 
-        input[type="url"], 
-        select {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            border: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.2));
-            border-radius: 8px;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-            font-size: 15px;
-        }
-
-        input::placeholder {
-            color: var(--tg-theme-hint-color, #999999);
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .switch-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-        }
-
-        .switch-label {
-            font-size: 15px;
-            color: var(--tg-theme-text-color, #000000);
-        }
-
-        /* Telegram Switch Style */
-        .tg-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-        }
-
-        .tg-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .tg-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--tg-theme-hint-color, #ccc);
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .tg-slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .tg-slider {
-            background-color: var(--tg-theme-button-color, #2AABEE);
-        }
-
-        input:focus + .tg-slider {
-            box-shadow: 0 0 1px var(--tg-theme-button-color, #2AABEE);
-        }
-
-        input:checked + .tg-slider:before {
-            transform: translateX(22px);
-        }
-
-        .error {
-            color: var(--tg-theme-destructive-text-color, #ff3b30);
-            font-size: 13px;
-            margin-top: 6px;
-        }
-
-        .keyword-row {
-            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .keyword-input {
-            margin-bottom: 8px;
-        }
-
-        .btn-add {
-            background-color: var(--tg-theme-button-color, #2AABEE);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 15px;
-            font-weight: 500;
-            width: 100%;
-            cursor: pointer;
-            margin-top: 16px;
-        }
-
-        .btn-remove {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: var(--tg-theme-destructive-text-color, #ff3b30);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 0;
-        }
-
-        .submit-button {
-            background-color: var(--tg-theme-button-color, #2AABEE);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            border-radius: 8px;
-            padding: 12px 0;
-            font-size: 16px;
-            font-weight: 500;
-            width: 100%;
-            cursor: pointer;
-            margin-top: 16px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="logo-container">
-            <img src="dranik.png" alt="Драник" class="logo">
-        </div>
-        <h1>Форма заявки на ПФ</h1>
+        <h1 class="title">Форма заявки на ПФ</h1>
         
-        <form id="myForm">
+        <form id="myForm" class="form">
             <div class="card">
-                <div class="card-content">
-                    <div class="form-group">
-                        <label for="days">Количество дней:</label>
-                        <input type="number" id="days" min="1" max="60" required>
-                        <div class="error" id="days-error"></div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="link">Ссылка:</label>
-                        <input type="url" id="link" placeholder="https://www.avito.ru/" required>
-                        <div class="error" id="link-error"></div>
-                    </div>
+                <div class="form-group">
+                    <div class="label-text">Количество дней</div>
+                    <input type="number" id="days" min="1" max="60" required>
+                    <div class="error" id="days-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label-text">Ссылка</div>
+                    <input type="url" id="link" placeholder="https://www.avito.ru/..." required>
                 </div>
             </div>
             
             <div class="card">
-                <div class="card-header">Ключевые слова и ПФ</div>
-                <div class="card-content">
-                    <div id="keywords-container">
-                        <div class="keyword-row">
-                            <button type="button" class="btn-remove" onclick="removeKeyword(this)">×</button>
-                            <div class="form-group">
-                                <label>Ключевое слово:</label>
-                                <input type="text" class="keyword-input" placeholder="Введите ключевое слово" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Количество ПФ:</label>
-                                <input type="number" class="pf-input" min="5" max="25" placeholder="5-25" required>
-                            </div>
-                            <div class="error keyword-error"></div>
-                        </div>
+                <div class="form-group">
+                    <div class="label-text">Ключевые слова и ПФ</div>
+                    <div class="row">
+                        <input type="text" required placeholder="Ключевое слово">
+                        <input type="number" required placeholder="ПФ">
+                        <button class="icon-button" id="add-keyword" type="button" class="btn-remove">
+                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
+                                </svg>
+                                
+                        </button>
                     </div>
-                    <button type="button" class="btn-add" onclick="addKeyword()">Добавить ключевое слово</button>
+                    <button class="icon-button button-add" type="button">
+                        <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.9" d="M8.25 5.625H5.125V8.75C5.125 8.91576 5.05915 9.07473 4.94194 9.19194C4.82473 9.30915 4.66576 9.375 4.5 9.375C4.33424 9.375 4.17527 9.30915 4.05806 9.19194C3.94085 9.07473 3.875 8.91576 3.875 8.75V5.625H0.75C0.58424 5.625 0.425268 5.55915 0.308058 5.44194C0.190848 5.32473 0.125 5.16576 0.125 5C0.125 4.83424 0.190848 4.67527 0.308058 4.55806C0.425268 4.44085 0.58424 4.375 0.75 4.375H3.875V1.25C3.875 1.08424 3.94085 0.925268 4.05806 0.808058C4.17527 0.690848 4.33424 0.625 4.5 0.625C4.66576 0.625 4.82473 0.690848 4.94194 0.808058C5.05915 0.925268 5.125 1.08424 5.125 1.25V4.375H8.25C8.41576 4.375 8.57473 4.44085 8.69194 4.55806C8.80915 4.67527 8.875 4.83424 8.875 5C8.875 5.16576 8.80915 5.32473 8.69194 5.44194C8.57473 5.55915 8.41576 5.625 8.25 5.625Z" fill="#316D36"/></svg>
+                    </button>
                 </div>
             </div>
             
             <div class="card">
-                <div class="card-content">
-                    <div class="switch-container">
-                        <span class="switch-label">С контактами</span>
-                        <label class="tg-switch">
-                            <input type="checkbox" id="contacts">
-                            <span class="tg-slider"></span>
-                        </label>
-                    </div>
+                <img src="./assets/image.png" alt="logo" class="chel">
+                <div>
+                    <label class="label">
+                        <span class="label-text">
+                            С контактами
+                        </span>
+                        <input class="checkbox" type="checkbox" id="contacts">
+                        <span class="checkbox-fake"></span>
+                    </label>
                 </div>
             </div>
             
-            <button type="submit" class="submit-button">Отправить</button>
-        </form>
+            <button type="submit" class="button-submit">Отправить</button>
+        </form>        
     </div>
 
     <script>
@@ -400,16 +164,16 @@
             const newRow = document.createElement('div');
             newRow.className = 'keyword-row';
             newRow.innerHTML = `
-                <button type="button" class="btn-remove" onclick="removeKeyword(this)">×</button>
-                <div class="form-group">
-                    <label>Ключевое слово:</label>
-                    <input type="text" class="keyword-input" placeholder="Введите ключевое слово" required>
-                </div>
-                <div class="form-group">
-                    <label>Количество ПФ:</label>
-                    <input type="number" class="pf-input" min="5" max="25" placeholder="5-25" required>
-                </div>
-                <div class="error keyword-error"></div>
+                <div class="row">
+                        <input type="text" required placeholder="Ключевое слово">
+                        <input type="number" required placeholder="ПФ">
+                        <button class="icon-button" type="button" class="btn-remove">
+                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
+                                </svg>
+                                
+                        </button>
+                    </div>
             `;
             container.appendChild(newRow);
             

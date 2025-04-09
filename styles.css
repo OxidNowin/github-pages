@@ -1,0 +1,195 @@
+@font-face {
+    font-family: "Gilroy";
+    src: local("Gilroy Regular"),
+      local("Gilroy-Regular"),
+      url("./assets/fonts/Gilroy-Regular.woff2") format("woff2"),
+      url("./assets/fonts/Gilroy-Regular.woff") format("woff");
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Gilroy";
+    src: local("Gilroy Semibold"),
+      local("Gilroy-Semibold"),
+      url("./assets/fonts/Gilroy-Semibold.woff2") format("woff2"),
+      url("./assets/fonts/Gilroy-Semibold.woff") format("woff");
+    font-weight: 500;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --accent-color: #3D88FF;
+    --border-radius: 10px;
+
+    --card-bg-color: #222222;
+    --bg-color: #000000;
+    --border-radius: 3px;
+    --border-color: #505050;
+    --text-color: #ffffff;
+}
+
+html, body {
+    min-height: 100vh;
+}
+
+body {
+    font-family: 'Gilroy', sans-serif;
+    font-weight: 400;
+    background-color: var(--bg-color);
+    padding-top: 16px;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 25px;
+}
+
+.label-text {
+    font-size: 16px;
+}
+
+button {
+    outline: none;
+    cursor: pointer;
+}
+
+input {
+    background-color: var(--bg-color);
+    border-radius: var(--border-radius);
+    padding: 7px 14px;
+    outline: none;
+    border: 1px solid var(--border-color);
+    color: inherit
+}
+
+.title {
+    text-align: center;
+    flex-shrink: 1;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+}
+
+.form {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.container {
+    flex-grow: 1;
+    max-width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+}
+
+.row input {
+    width: 100%;
+}
+
+.icon-button {
+    outline: none;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    border-radius: var(--border-radius);
+}
+
+.button-add {
+    margin: 12px auto 0;
+    background-color: transparent;
+}
+
+.button-submit {
+    display: block;
+    width: 100%;
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+    padding: 10px 0;
+    color: var(--text-color);
+    border: none;
+    margin-top: auto;
+}
+
+.chel {
+    position: absolute;
+    width: 100px;
+    height: 155px;
+    transform: rotate(20deg);
+    bottom: -17px;
+    left: -67px;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-fake {
+    display: block;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 13px;
+    height: 13px;
+    position: relative;
+}
+
+.checkbox-fake::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    background-color: var(--accent-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.checkbox:checked + .checkbox-fake::before {
+    opacity: 1;
+}
+
+.checkbox {
+    display: none;
+}
