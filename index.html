@@ -22,23 +22,28 @@
                 <div class="form-group">
                     <div class="label-text">Ссылка</div>
                     <input type="url" id="link" placeholder="https://www.avito.ru/..." required>
+                    <div class="error" id="link-error"></div>
                 </div>
             </div>
             
             <div class="card">
                 <div class="form-group">
                     <div class="label-text">Ключевые слова и ПФ</div>
-                    <div class="row">
-                        <input type="text" required placeholder="Ключевое слово">
-                        <input type="number" required placeholder="ПФ">
-                        <button class="icon-button" id="add-keyword" type="button" class="btn-remove">
-                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
-                                </svg>
-                                
-                        </button>
+                    <div id="keywords-container">
+                        <div class="keyword-row">
+                            <div class="row">
+                                <input type="text" class="keyword-input" required placeholder="Ключевое слово">
+                                <input type="number" class="pf-input" required placeholder="ПФ" min="5" max="50">
+                                <button class="icon-button btn-remove" type="button">
+                                    <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="error keyword-error"></div>
+                        </div>
                     </div>
-                    <button class="icon-button button-add" type="button">
+                    <button class="icon-button button-add" id="add-keyword" type="button">
                         <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path opacity="0.9" d="M8.25 5.625H5.125V8.75C5.125 8.91576 5.05915 9.07473 4.94194 9.19194C4.82473 9.30915 4.66576 9.375 4.5 9.375C4.33424 9.375 4.17527 9.30915 4.05806 9.19194C3.94085 9.07473 3.875 8.91576 3.875 8.75V5.625H0.75C0.58424 5.625 0.425268 5.55915 0.308058 5.44194C0.190848 5.32473 0.125 5.16576 0.125 5C0.125 4.83424 0.190848 4.67527 0.308058 4.55806C0.425268 4.44085 0.58424 4.375 0.75 4.375H3.875V1.25C3.875 1.08424 3.94085 0.925268 4.05806 0.808058C4.17527 0.690848 4.33424 0.625 4.5 0.625C4.66576 0.625 4.82473 0.690848 4.94194 0.808058C5.05915 0.925268 5.125 1.08424 5.125 1.25V4.375H8.25C8.41576 4.375 8.57473 4.44085 8.69194 4.55806C8.80915 4.67527 8.875 4.83424 8.875 5C8.875 5.16576 8.80915 5.32473 8.69194 5.44194C8.57473 5.55915 8.41576 5.625 8.25 5.625Z" fill="#316D36"/></svg>
                     </button>
@@ -84,7 +89,7 @@
         
         // Применение темы Telegram
         document.addEventListener('DOMContentLoaded', function() {
-            const submitButton = document.querySelector('.submit-button');
+            const submitButton = document.querySelector('.button-submit');
             
             // Проверяем, запущено ли приложение внутри Telegram
             if (isInTelegram) {
@@ -122,6 +127,9 @@
             
             // Добавляем обработчики для всех полей ввода
             setupInputBlur();
+            
+            // Настраиваем обработчики событий для кнопок добавления и удаления
+            setupKeywordHandlers();
         });
         
         // Функция для настройки скрытия клавиатуры
@@ -158,45 +166,71 @@
             });
         }
         
-        // Обновляем функцию добавления ключевого слова, чтобы применять обработчики к новым полям
+        // Функция для настройки обработчиков событий кнопок добавления и удаления
+        function setupKeywordHandlers() {
+            // Обработчик для кнопки добавления
+            document.getElementById('add-keyword').addEventListener('click', addKeyword);
+            
+            // Установка обработчиков для существующих кнопок удаления
+            setupRemoveButtons();
+        }
+        
+        // Обновляем функцию добавления ключевого слова
         function addKeyword() {
             const container = document.getElementById('keywords-container');
             const newRow = document.createElement('div');
             newRow.className = 'keyword-row';
             newRow.innerHTML = `
                 <div class="row">
-                        <input type="text" required placeholder="Ключевое слово">
-                        <input type="number" required placeholder="ПФ">
-                        <button class="icon-button" type="button" class="btn-remove">
-                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
-                                </svg>
-                                
-                        </button>
-                    </div>
+                    <input type="text" class="keyword-input" required placeholder="Ключевое слово">
+                    <input type="number" class="pf-input" required placeholder="ПФ" min="5" max="50">
+                    <button class="icon-button btn-remove" type="button">
+                        <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="error keyword-error"></div>
             `;
             container.appendChild(newRow);
             
             // Применяем обработчики к новым полям
             setupInputBlur();
+            
+            // Добавляем обработчик для новой кнопки удаления
+            setupRemoveButtons();
         }
         
-        function removeKeyword(button) {
+        // Функция для настройки обработчиков кнопок удаления
+        function setupRemoveButtons() {
+            document.querySelectorAll('.btn-remove').forEach(button => {
+                button.removeEventListener('click', removeKeywordHandler);
+                button.addEventListener('click', removeKeywordHandler);
+            });
+        }
+        
+        // Обработчик события для кнопки удаления
+        function removeKeywordHandler(event) {
+            const button = event.currentTarget;
+            const keywordRow = button.closest('.keyword-row');
             const container = document.getElementById('keywords-container');
-            const row = button.parentNode;
             
             // Проверяем, что это не последняя строка
             if (container.children.length > 1) {
-                container.removeChild(row);
+                container.removeChild(keywordRow);
             } else {
                 if (tg.HapticFeedback) {
                     tg.HapticFeedback.notificationOccurred('error');
                 }
-                tg.showPopup({
-                    title: 'Ошибка',
-                    message: 'Должно быть минимум одно ключевое слово',
-                    buttons: [{type: 'ok'}]
-                });
+                if (tg.showPopup) {
+                    tg.showPopup({
+                        title: 'Ошибка',
+                        message: 'Должно быть минимум одно ключевое слово',
+                        buttons: [{type: 'ok'}]
+                    });
+                } else {
+                    alert('Должно быть минимум одно ключевое слово');
+                }
             }
         }
         
@@ -226,21 +260,31 @@
                 linkError.textContent = '';
             }
             
-            // Валидация ключевых слов
+            // Валидация ключевых слов и ПФ
             const keywordInputs = document.querySelectorAll('.keyword-input');
+            const pfInputs = document.querySelectorAll('.pf-input');
             const keywordErrors = document.querySelectorAll('.keyword-error');
             let hasKeyword = false;
             
             keywordInputs.forEach((input, index) => {
                 if (input.value.trim() !== '') {
                     hasKeyword = true;
-                    keywordErrors[index].textContent = '';
+                }
+                
+                // Проверка значения ПФ
+                const pfInput = pfInputs[index];
+                const pfValue = parseInt(pfInput.value);
+                if (isNaN(pfValue) || pfValue < 5 || pfValue > 50) {
+                    keywordErrors[index].textContent = 'ПФ должен быть от 5 до 50';
+                    isValid = false;
                 }
             });
             
             if (!hasKeyword) {
                 keywordErrors[0].textContent = 'Введите хотя бы одно ключевое слово';
                 isValid = false;
+            } else if (isValid) {
+                keywordErrors.forEach(error => error.textContent = '');
             }
             
             if (isValid) {

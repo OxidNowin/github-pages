@@ -22,14 +22,29 @@
 }
 
 :root {
-    --accent-color: #3D88FF;
-    --border-radius: 10px;
-
-    --card-bg-color: #222222;
-    --bg-color: #000000;
+    /* Основные цвета из Telegram ThemeParams */
+    --bg-color: var(--tg-theme-bg-color, #000000);
+    --text-color: var(--tg-theme-text-color, #ffffff);
+    --hint-color: var(--tg-theme-hint-color, #999999);
+    --link-color: var(--tg-theme-link-color, #3D88FF);
+    --button-color: var(--tg-theme-button-color, #3D88FF);
+    --button-text-color: var(--tg-theme-button-text-color, #ffffff);
+    --secondary-bg-color: var(--tg-theme-secondary-bg-color, #222222);
+    --header-bg-color: var(--tg-theme-header-bg-color, #222222);
+    --accent-text-color: var(--tg-theme-accent-text-color, #3D88FF);
+    --section-bg-color: var(--tg-theme-section-bg-color, #222222);
+    --section-header-text-color: var(--tg-theme-section-header-text-color, #ffffff);
+    --subtitle-text-color: var(--tg-theme-subtitle-text-color, #aaaaaa);
+    --destructive-text-color: var(--tg-theme-destructive-text-color, #ff3b30);
+    --header-text-color: var(--tg-theme-header-text-color, #ffffff);
+    --section-separator-color: var(--tg-theme-section-separator-color, #505050);
+    --bottom-bar-bg-color: var(--tg-theme-bottom-bar-bg-color, #222222);
+    
+    /* Пользовательские переменные с резервными значениями */
+    --accent-color: var(--tg-theme-button-color, #3D88FF);
     --border-radius: 3px;
-    --border-color: #505050;
-    --text-color: #ffffff;
+    --card-bg-color: var(--tg-theme-secondary-bg-color, #222222);
+    --border-color: var(--tg-theme-section-separator-color, #505050);
 }
 
 html, body {
