@@ -274,8 +274,8 @@
                 // Проверка значения ПФ
                 const pfInput = pfInputs[index];
                 const pfValue = parseInt(pfInput.value);
-                if (isNaN(pfValue) || pfValue < 5 || pfValue > 50) {
-                    keywordErrors[index].textContent = 'ПФ должен быть от 5 до 50';
+                if (isNaN(pfValue) || pfValue < 5 || pfValue > 25) {
+                    keywordErrors[index].textContent = 'ПФ должен быть от 5 до 25';
                     isValid = false;
                 }
             });
