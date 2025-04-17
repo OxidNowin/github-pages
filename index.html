@@ -280,6 +280,20 @@
                 }
             });
             
+            // Проверка суммарного количества ПФ (должно быть меньше 30)
+            let totalPF = 0;
+            pfInputs.forEach(input => {
+                const pfValue = parseInt(input.value);
+                if (!isNaN(pfValue)) {
+                    totalPF += pfValue;
+                }
+            });
+            
+            if (totalPF > 30) {
+                keywordErrors[0].textContent = 'Суммарное количество ПФ должно быть меньше 30';
+                isValid = false;
+            }
+            
             if (!hasKeyword) {
                 keywordErrors[0].textContent = 'Введите хотя бы одно ключевое слово';
                 isValid = false;
