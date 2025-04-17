@@ -12,58 +12,76 @@
         <h1 class="title">Форма заявки на ПФ</h1>
         
         <form id="myForm" class="form">
-            <div class="card">
-                <div class="form-group">
-                    <div class="label-text">Количество дней</div>
-                    <input type="number" id="days" min="1" max="60" required>
-                    <div class="error" id="days-error"></div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label-text">Ссылка</div>
-                    <input type="url" id="link" placeholder="https://www.avito.ru/..." required>
-                    <div class="error" id="link-error"></div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="form-group">
-                    <div class="label-text">Ключевые слова и ПФ</div>
-                    <div id="keywords-container">
-                        <div class="keyword-row">
-                            <div class="row">
-                                <input type="text" class="keyword-input" required placeholder="Ключевое слово">
-                                <input type="number" class="pf-input" required placeholder="ПФ" min="5" max="50">
-                                <button class="icon-button btn-remove" type="button">
-                                    <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="error keyword-error"></div>
+            <div id="orders-container">
+                <div class="order-block">
+                    <div class="card">
+                        <div class="form-group">
+                            <div class="label-text">Количество дней</div>
+                            <input type="number" class="days-input" min="1" max="60" required oninput="updateOrderPrice(this.closest('.order-block')); updateTotalPrice();">
+                            <div class="error days-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="label-text">Ссылка</div>
+                            <input type="url" class="link-input" placeholder="https://www.avito.ru/..." required>
+                            <div class="error link-error"></div>
                         </div>
                     </div>
-                    <button class="icon-button button-add" id="add-keyword" type="button">
-                        <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path opacity="0.9" d="M8.25 5.625H5.125V8.75C5.125 8.91576 5.05915 9.07473 4.94194 9.19194C4.82473 9.30915 4.66576 9.375 4.5 9.375C4.33424 9.375 4.17527 9.30915 4.05806 9.19194C3.94085 9.07473 3.875 8.91576 3.875 8.75V5.625H0.75C0.58424 5.625 0.425268 5.55915 0.308058 5.44194C0.190848 5.32473 0.125 5.16576 0.125 5C0.125 4.83424 0.190848 4.67527 0.308058 4.55806C0.425268 4.44085 0.58424 4.375 0.75 4.375H3.875V1.25C3.875 1.08424 3.94085 0.925268 4.05806 0.808058C4.17527 0.690848 4.33424 0.625 4.5 0.625C4.66576 0.625 4.82473 0.690848 4.94194 0.808058C5.05915 0.925268 5.125 1.08424 5.125 1.25V4.375H8.25C8.41576 4.375 8.57473 4.44085 8.69194 4.55806C8.80915 4.67527 8.875 4.83424 8.875 5C8.875 5.16576 8.80915 5.32473 8.69194 5.44194C8.57473 5.55915 8.41576 5.625 8.25 5.625Z" fill="#316D36"/></svg>
-                    </button>
+                    
+                    <div class="card">
+                        <div class="form-group">
+                            <div class="label-text">Ключевые слова и ПФ</div>
+                            <div class="hint-text">Стоимость 1 ПФ - 5 рублей</div>
+                            <div class="keywords-container">
+                                <div class="keyword-row">
+                                    <div class="row">
+                                        <input type="text" class="keyword-input" required placeholder="Ключевое слово">
+                                        <input type="number" class="pf-input" required placeholder="ПФ" min="5" max="50" oninput="updateOrderPrice(this.closest('.order-block')); updateTotalPrice();">
+                                        <button class="icon-button btn-remove" type="button">
+                                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="error keyword-error"></div>
+                                </div>
+                            </div>
+                            <button class="icon-button button-add add-keyword" type="button">
+                                <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path opacity="0.9" d="M8.25 5.625H5.125V8.75C5.125 8.91576 5.05915 9.07473 4.94194 9.19194C4.82473 9.30915 4.66576 9.375 4.5 9.375C4.33424 9.375 4.17527 9.30915 4.05806 9.19194C3.94085 9.07473 3.875 8.91576 3.875 8.75V5.625H0.75C0.58424 5.625 0.425268 5.55915 0.308058 5.44194C0.190848 5.32473 0.125 5.16576 0.125 5C0.125 4.83424 0.190848 4.67527 0.308058 4.55806C0.425268 4.44085 0.58424 4.375 0.75 4.375H3.875V1.25C3.875 1.08424 3.94085 0.925268 4.05806 0.808058C4.17527 0.690848 4.33424 0.625 4.5 0.625C4.66576 0.625 4.82473 0.690848 4.94194 0.808058C5.05915 0.925268 5.125 1.08424 5.125 1.25V4.375H8.25C8.41576 4.375 8.57473 4.44085 8.69194 4.55806C8.80915 4.67527 8.875 4.83424 8.875 5C8.875 5.16576 8.80915 5.32473 8.69194 5.44194C8.57473 5.55915 8.41576 5.625 8.25 5.625Z" fill="#316D36"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <img src="./assets/image.png" alt="logo" class="chel">
+                        <div>
+                            <label class="label">
+                                <span class="label-text">
+                                    С контактами
+                                </span>
+                                <input class="checkbox contacts-checkbox" type="checkbox">
+                                <span class="checkbox-fake"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="order-total">
+                        <div class="label-text">Стоимость заказа: <span class="order-price">0</span> руб.</div>
+                    </div>
+                    
+                    <button class="btn-remove-order" type="button">Удалить заказ</button>
                 </div>
             </div>
             
-            <div class="card">
-                <img src="./assets/image.png" alt="logo" class="chel">
-                <div>
-                    <label class="label">
-                        <span class="label-text">
-                            С контактами
-                        </span>
-                        <input class="checkbox" type="checkbox" id="contacts">
-                        <span class="checkbox-fake"></span>
-                    </label>
+            <div class="controls-container">
+                <button class="button-add-order" id="add-order" type="button">Добавить заказ</button>
+                <div class="total-price-container">
+                    <div class="label-text total-text">Общая сумма заказа: <span class="total-price">0</span> руб.</div>
+                    <div class="error total-price-error"></div>
                 </div>
+                <button type="submit" class="button-submit">Отправить</button>
             </div>
-            
-            <button type="submit" class="button-submit">Отправить</button>
         </form>        
     </div>
 
@@ -130,6 +148,9 @@
             
             // Настраиваем обработчики событий для кнопок добавления и удаления
             setupKeywordHandlers();
+            
+            // Настраиваем обработчики для кнопок добавления и удаления заказов
+            setupOrderHandlers();
         });
         
         // Функция для настройки скрытия клавиатуры
@@ -152,8 +173,8 @@
                 
                 // При потере фокуса с поля
                 input.addEventListener('blur', function() {
-                    // Дополнительное действие для iOS
-                    window.scrollTo(0, 0);
+                    // Удаляем прокрутку к началу страницы, оставляя только скрытие клавиатуры
+                    // Это позволит скрыть клавиатуру без перемещения пользователя в начало страницы
                 });
             });
             
@@ -166,24 +187,39 @@
             });
         }
         
-        // Функция для настройки обработчиков событий кнопок добавления и удаления
+        // Функция для настройки обработчиков событий кнопок добавления и удаления ключевых слов
         function setupKeywordHandlers() {
-            // Обработчик для кнопки добавления
-            document.getElementById('add-keyword').addEventListener('click', addKeyword);
+            // Обработчик для кнопок добавления ключевых слов
+            document.querySelectorAll('.add-keyword').forEach(button => {
+                button.removeEventListener('click', addKeywordHandler);
+                button.addEventListener('click', addKeywordHandler);
+            });
             
             // Установка обработчиков для существующих кнопок удаления
             setupRemoveButtons();
         }
         
+        // Функция для настройки обработчиков событий кнопок добавления и удаления заказов
+        function setupOrderHandlers() {
+            // Обработчик для кнопки добавления заказа
+            document.getElementById('add-order').addEventListener('click', addOrder);
+            
+            // Установка обработчиков для существующих кнопок удаления заказов
+            setupRemoveOrderButtons();
+        }
+        
         // Обновляем функцию добавления ключевого слова
-        function addKeyword() {
-            const container = document.getElementById('keywords-container');
+        function addKeywordHandler(event) {
+            const button = event.currentTarget;
+            const orderBlock = button.closest('.order-block');
+            const container = orderBlock.querySelector('.keywords-container');
+            
             const newRow = document.createElement('div');
             newRow.className = 'keyword-row';
             newRow.innerHTML = `
                 <div class="row">
                     <input type="text" class="keyword-input" required placeholder="Ключевое слово">
-                    <input type="number" class="pf-input" required placeholder="ПФ" min="5" max="50">
+                    <input type="number" class="pf-input" required placeholder="ПФ" min="5" max="50" oninput="updateOrderPrice(this.closest('.order-block')); updateTotalPrice();">
                     <button class="icon-button btn-remove" type="button">
                         <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.5 18C2.95 18 2.47934 17.8043 2.088 17.413C1.69667 17.0217 1.50067 16.5507 1.5 16V3C1.21667 3 0.979337 2.904 0.788004 2.712C0.59667 2.52 0.50067 2.28267 0.500003 2C0.499337 1.71733 0.595337 1.48 0.788004 1.288C0.98067 1.096 1.218 1 1.5 1H5.5C5.5 0.716667 5.596 0.479333 5.788 0.288C5.98 0.0966668 6.21734 0.000666667 6.5 0H10.5C10.7833 0 11.021 0.0960001 11.213 0.288C11.405 0.48 11.5007 0.717333 11.5 1H15.5C15.7833 1 16.021 1.096 16.213 1.288C16.405 1.48 16.5007 1.71733 16.5 2C16.4993 2.28267 16.4033 2.52033 16.212 2.713C16.0207 2.90567 15.7833 3.00133 15.5 3V16C15.5 16.55 15.3043 17.021 14.913 17.413C14.5217 17.805 14.0507 18.0007 13.5 18H3.5ZM6.5 14C6.78334 14 7.021 13.904 7.213 13.712C7.405 13.52 7.50067 13.2827 7.5 13V6C7.5 5.71667 7.404 5.47933 7.212 5.288C7.02 5.09667 6.78267 5.00067 6.5 5C6.21734 4.99933 5.98 5.09533 5.788 5.288C5.596 5.48067 5.5 5.718 5.5 6V13C5.5 13.2833 5.596 13.521 5.788 13.713C5.98 13.905 6.21734 14.0007 6.5 14ZM10.5 14C10.7833 14 11.021 13.904 11.213 13.712C11.405 13.52 11.5007 13.2827 11.5 13V6C11.5 5.71667 11.404 5.47933 11.212 5.288C11.02 5.09667 10.7827 5.00067 10.5 5C10.2173 4.99933 9.98 5.09533 9.788 5.288C9.596 5.48067 9.5 5.718 9.5 6V13C9.5 13.2833 9.596 13.521 9.788 13.713C9.98 13.905 10.2173 14.0007 10.5 14Z" fill="#D00000"/>
@@ -199,9 +235,13 @@
             
             // Добавляем обработчик для новой кнопки удаления
             setupRemoveButtons();
+            
+            // Обновляем цену заказа
+            updateOrderPrice(orderBlock);
+            updateTotalPrice();
         }
         
-        // Функция для настройки обработчиков кнопок удаления
+        // Функция для настройки обработчиков кнопок удаления ключевых слов
         function setupRemoveButtons() {
             document.querySelectorAll('.btn-remove').forEach(button => {
                 button.removeEventListener('click', removeKeywordHandler);
@@ -209,15 +249,18 @@
             });
         }
         
-        // Обработчик события для кнопки удаления
+        // Обработчик события для кнопки удаления ключевого слова
         function removeKeywordHandler(event) {
             const button = event.currentTarget;
             const keywordRow = button.closest('.keyword-row');
-            const container = document.getElementById('keywords-container');
+            const container = button.closest('.keywords-container');
             
             // Проверяем, что это не последняя строка
             if (container.children.length > 1) {
                 container.removeChild(keywordRow);
+                // Пересчитываем стоимость после удаления
+                updateOrderPrice(button.closest('.order-block'));
+                updateTotalPrice();
             } else {
                 if (tg.HapticFeedback) {
                     tg.HapticFeedback.notificationOccurred('error');
@@ -234,54 +277,215 @@
             }
         }
         
+        // Функция добавления нового заказа
+        function addOrder() {
+            const container = document.getElementById('orders-container');
+            const orderTemplate = container.querySelector('.order-block').cloneNode(true);
+            
+            // Очищаем значения полей ввода в новом заказе
+            orderTemplate.querySelectorAll('input[type="text"], input[type="number"], input[type="url"]').forEach(input => {
+                input.value = '';
+            });
+            
+            // Снимаем отметки с чекбоксов
+            orderTemplate.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Очищаем сообщения об ошибках
+            orderTemplate.querySelectorAll('.error').forEach(error => {
+                error.textContent = '';
+            });
+            
+            // Сбрасываем стоимость заказа
+            orderTemplate.querySelector('.order-price').textContent = '0';
+            
+            // Оставляем только одно ключевое слово
+            const keywordsContainer = orderTemplate.querySelector('.keywords-container');
+            const keywordRows = keywordsContainer.querySelectorAll('.keyword-row');
+            for (let i = 1; i < keywordRows.length; i++) {
+                keywordsContainer.removeChild(keywordRows[i]);
+            }
+            
+            // Добавляем новый заказ в контейнер
+            container.appendChild(orderTemplate);
+            
+            // Настраиваем обработчики для нового заказа
+            setupInputBlur();
+            setupKeywordHandlers();
+            setupRemoveOrderButtons();
+            
+            // Добавляем обработчики для полей ПФ
+            setupPfInputHandlers(orderTemplate);
+            
+            // Обновляем общую сумму
+            updateTotalPrice();
+        }
+        
+        // Функция настройки обработчиков для кнопок удаления заказов
+        function setupRemoveOrderButtons() {
+            document.querySelectorAll('.btn-remove-order').forEach(button => {
+                button.removeEventListener('click', removeOrderHandler);
+                button.addEventListener('click', removeOrderHandler);
+            });
+        }
+        
+        // Обработчик события для кнопки удаления заказа
+        function removeOrderHandler(event) {
+            const button = event.currentTarget;
+            const orderBlock = button.closest('.order-block');
+            const container = document.getElementById('orders-container');
+            
+            // Проверяем, что это не последний заказ
+            if (container.children.length > 1) {
+                container.removeChild(orderBlock);
+                // Обновляем общую сумму после удаления заказа
+                updateTotalPrice();
+            } else {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+                if (tg.showPopup) {
+                    tg.showPopup({
+                        title: 'Ошибка',
+                        message: 'Должен быть минимум один заказ',
+                        buttons: [{type: 'ok'}]
+                    });
+                } else {
+                    alert('Должен быть минимум один заказ');
+                }
+            }
+        }
+        
+        // Обработчик отправки формы
         document.getElementById('myForm').addEventListener('submit', function(event) {
             event.preventDefault();
             
             let isValid = true;
             
-            // Валидация количества дней
-            const days = document.getElementById('days');
-            const daysError = document.getElementById('days-error');
-            if (days.value < 1 || days.value > 60) {
-                daysError.textContent = 'Количество дней должно быть от 1 до 60';
-                isValid = false;
-            } else {
-                daysError.textContent = '';
-            }
+            // Получаем все блоки заказов
+            const orderBlocks = document.querySelectorAll('.order-block');
             
-            // Валидация ссылки
-            const link = document.getElementById('link');
-            const linkError = document.getElementById('link-error');
-            const linkRegex = /avito\.ru/;
-            if (!linkRegex.test(link.value)) {
-                linkError.textContent = 'Ссылка должна содержать avito.ru';
-                isValid = false;
-            } else {
-                linkError.textContent = '';
-            }
+            // Массив для хранения данных всех заказов
+            const orders = [];
             
-            // Валидация ключевых слов и ПФ
-            const keywordInputs = document.querySelectorAll('.keyword-input');
-            const pfInputs = document.querySelectorAll('.pf-input');
-            const keywordErrors = document.querySelectorAll('.keyword-error');
-            let hasKeyword = false;
-            
-            keywordInputs.forEach((input, index) => {
-                if (input.value.trim() !== '') {
-                    hasKeyword = true;
+            // Проверяем каждый заказ
+            orderBlocks.forEach((orderBlock, orderIndex) => {
+                // Валидация количества дней
+                const days = orderBlock.querySelector('.days-input');
+                const daysError = orderBlock.querySelector('.days-error');
+                if (days.value < 1 || days.value > 60) {
+                    daysError.textContent = 'Количество дней должно быть от 1 до 60';
+                    isValid = false;
+                } else {
+                    daysError.textContent = '';
                 }
                 
-                // Проверка значения ПФ
-                const pfInput = pfInputs[index];
-                const pfValue = parseInt(pfInput.value);
-                if (isNaN(pfValue) || pfValue < 5 || pfValue > 25) {
-                    keywordErrors[index].textContent = 'ПФ должен быть от 5 до 25';
+                // Валидация ссылки
+                const link = orderBlock.querySelector('.link-input');
+                const linkError = orderBlock.querySelector('.link-error');
+                const linkRegex = /avito\.ru/;
+                if (!linkRegex.test(link.value)) {
+                    linkError.textContent = 'Ссылка должна содержать avito.ru';
                     isValid = false;
+                } else {
+                    linkError.textContent = '';
+                }
+                
+                // Валидация ключевых слов и ПФ
+                const keywordInputs = orderBlock.querySelectorAll('.keyword-input');
+                const pfInputs = orderBlock.querySelectorAll('.pf-input');
+                const keywordErrors = orderBlock.querySelectorAll('.keyword-error');
+                let hasKeyword = false;
+                
+                keywordInputs.forEach((input, index) => {
+                    if (input.value.trim() !== '') {
+                        hasKeyword = true;
+                    }
+                    
+                    // Проверка значения ПФ
+                    const pfInput = pfInputs[index];
+                    const pfValue = parseInt(pfInput.value);
+                    if (isNaN(pfValue) || pfValue < 5 || pfValue > 25) {
+                        keywordErrors[index].textContent = 'ПФ должен быть от 5 до 25';
+                        isValid = false;
+                    }
+                });
+                
+                // Проверка суммарного количества ПФ (должно быть меньше 30)
+                let totalPF = 0;
+                pfInputs.forEach(input => {
+                    const pfValue = parseInt(input.value);
+                    if (!isNaN(pfValue)) {
+                        totalPF += pfValue;
+                    }
+                });
+                
+                if (totalPF > 30) {
+                    keywordErrors[0].textContent = 'Суммарное количество ПФ должно быть меньше 30';
+                    isValid = false;
+                }
+                
+                if (!hasKeyword) {
+                    keywordErrors[0].textContent = 'Введите хотя бы одно ключевое слово';
+                    isValid = false;
+                } else if (isValid) {
+                    keywordErrors.forEach(error => error.textContent = '');
+                }
+                
+                // Если заказ валиден, собираем данные
+                if (isValid) {
+                    orders.push({
+                        days: days.value,
+                        link: link.value,
+                        keywords: Array.from(orderBlock.querySelectorAll('.keyword-row')).map(row => {
+                            return {
+                                keyword: row.querySelector('.keyword-input').value,
+                                pf: row.querySelector('.pf-input').value
+                            };
+                        }),
+                        contacts: orderBlock.querySelector('.contacts-checkbox').checked
+                    });
                 }
             });
             
-            // Проверка суммарного количества ПФ (должно быть меньше 30)
+            // Проверка минимальной суммы заказа
+            const totalPrice = parseInt(document.querySelector('.total-price').textContent);
+            const totalPriceError = document.querySelector('.total-price-error');
+            
+            if (totalPrice < 100) {
+                totalPriceError.textContent = 'Общая сумма заказа должна быть не менее 100 рублей';
+                isValid = false;
+                
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+            } else {
+                totalPriceError.textContent = '';
+            }
+            
+            if (isValid) {
+                console.log('Форма отправлена успешно');
+                
+                // Отправка данных в Telegram
+                if (tg.MainButton) {
+                    tg.sendData(JSON.stringify(orders));
+                }
+                
+                console.log('Отправленные данные:', orders);
+            } else if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('error');
+            }
+        });
+        
+        // Функция для расчета стоимости заказа
+        function updateOrderPrice(orderBlock) {
+            const pfInputs = orderBlock.querySelectorAll('.pf-input');
+            const daysInput = orderBlock.querySelector('.days-input');
+            
             let totalPF = 0;
+            let days = parseInt(daysInput.value) || 0;
+            
             pfInputs.forEach(input => {
                 const pfValue = parseInt(input.value);
                 if (!isNaN(pfValue)) {
@@ -289,43 +493,43 @@
                 }
             });
             
-            if (totalPF > 30) {
-                keywordErrors[0].textContent = 'Суммарное количество ПФ должно быть меньше 30';
-                isValid = false;
-            }
+            const orderPrice = days * totalPF * 5; // дни * ПФ * 5 рублей
+            orderBlock.querySelector('.order-price').textContent = orderPrice;
+        }
+        
+        // Функция для расчета общей суммы всех заказов
+        function updateTotalPrice() {
+            const orderBlocks = document.querySelectorAll('.order-block');
+            let totalPrice = 0;
             
-            if (!hasKeyword) {
-                keywordErrors[0].textContent = 'Введите хотя бы одно ключевое слово';
-                isValid = false;
-            } else if (isValid) {
-                keywordErrors.forEach(error => error.textContent = '');
-            }
-            
-            if (isValid) {
-                console.log('Форма отправлена успешно');
-                // Сбор данных формы
-                const formData = {
-                    days: days.value,
-                    link: link.value,
-                    keywords: Array.from(document.querySelectorAll('.keyword-row')).map(row => {
-                        return {
-                            keyword: row.querySelector('.keyword-input').value,
-                            pf: row.querySelector('.pf-input').value
-                        };
-                    }),
-                    contacts: document.getElementById('contacts').checked
-                };
-                
-                // Отправка данных в Telegram
-                if (tg.MainButton) {
-                    tg.sendData(JSON.stringify(formData));
+            orderBlocks.forEach(block => {
+                const price = parseInt(block.querySelector('.order-price').textContent);
+                if (!isNaN(price)) {
+                    totalPrice += price;
                 }
-                
-                console.log('Отправленные данные:', formData);
-            } else if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('error');
-            }
+            });
+            
+            document.querySelector('.total-price').textContent = totalPrice;
+        }
+        
+        // Добавляем обработчики для полей ПФ
+        function setupPfInputHandlers(container = document) {
+            container.querySelectorAll('.pf-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    updateOrderPrice(this.closest('.order-block'));
+                    updateTotalPrice();
+                });
+            });
+        }
+        
+        // Инициализируем обработчики для полей ПФ
+        setupPfInputHandlers();
+        
+        // Рассчитываем начальные цены
+        document.querySelectorAll('.order-block').forEach(block => {
+            updateOrderPrice(block);
         });
+        updateTotalPrice();
     </script>
 </body>
 </html>
