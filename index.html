@@ -362,6 +362,15 @@
             event.preventDefault();
             
             let isValid = true;
+            let errorMessages = [];
+            
+            // Сбрасываем стили ошибок
+            document.querySelectorAll('.has-error').forEach(field => {
+                field.classList.remove('has-error');
+            });
+            document.querySelectorAll('.error').forEach(error => {
+                error.textContent = '';
+            });
             
             // Получаем все блоки заказов
             const orderBlocks = document.querySelectorAll('.order-block');
@@ -376,9 +385,9 @@
                 const daysError = orderBlock.querySelector('.days-error');
                 if (days.value < 1 || days.value > 60) {
                     daysError.textContent = 'Количество дней должно быть от 1 до 60';
+                    days.classList.add('has-error');
+                    errorMessages.push(`Заказ №${orderIndex + 1}: Количество дней должно быть от 1 до 60`);
                     isValid = false;
-                } else {
-                    daysError.textContent = '';
                 }
                 
                 // Валидация ссылки
@@ -387,9 +396,9 @@
                 const linkRegex = /avito\.ru/;
                 if (!linkRegex.test(link.value)) {
                     linkError.textContent = 'Ссылка должна содержать avito.ru';
+                    link.classList.add('has-error');
+                    errorMessages.push(`Заказ №${orderIndex + 1}: Ссылка должна содержать avito.ru`);
                     isValid = false;
-                } else {
-                    linkError.textContent = '';
                 }
                 
                 // Валидация ключевых слов и ПФ
@@ -401,6 +410,8 @@
                 keywordInputs.forEach((input, index) => {
                     if (input.value.trim() !== '') {
                         hasKeyword = true;
+                    } else {
+                        input.classList.add('has-error');
                     }
                     
                     // Проверка значения ПФ
@@ -408,6 +419,8 @@
                     const pfValue = parseInt(pfInput.value);
                     if (isNaN(pfValue) || pfValue < 5 || pfValue > 25) {
                         keywordErrors[index].textContent = 'ПФ должен быть от 5 до 25';
+                        pfInput.classList.add('has-error');
+                        errorMessages.push(`Заказ №${orderIndex + 1}: ПФ должен быть от 5 до 25`);
                         isValid = false;
                     }
                 });
@@ -423,14 +436,16 @@
                 
                 if (totalPF > 30) {
                     keywordErrors[0].textContent = 'Суммарное количество ПФ должно быть меньше 30';
+                    pfInputs.forEach(input => input.classList.add('has-error'));
+                    errorMessages.push(`Заказ №${orderIndex + 1}: Суммарное количество ПФ должно быть меньше 30`);
                     isValid = false;
                 }
                 
                 if (!hasKeyword) {
                     keywordErrors[0].textContent = 'Введите хотя бы одно ключевое слово';
+                    keywordInputs.forEach(input => input.classList.add('has-error'));
+                    errorMessages.push(`Заказ №${orderIndex + 1}: Введите хотя бы одно ключевое слово`);
                     isValid = false;
-                } else if (isValid) {
-                    keywordErrors.forEach(error => error.textContent = '');
                 }
                 
                 // Если заказ валиден, собираем данные
@@ -452,19 +467,32 @@
             // Проверка минимальной суммы заказа
             const totalPrice = parseInt(document.querySelector('.total-price').textContent);
             const totalPriceError = document.querySelector('.total-price-error');
+            const totalPriceContainer = document.querySelector('.total-price-container');
             
             if (totalPrice < 100) {
                 totalPriceError.textContent = 'Общая сумма заказа должна быть не менее 100 рублей';
+                totalPriceContainer.classList.add('has-error');
+                errorMessages.push('Общая сумма заказа должна быть не менее 100 рублей');
                 isValid = false;
+            }
+            
+            // Показываем сообщения об ошибках
+            if (!isValid && errorMessages.length > 0) {
+                // Отображаем ошибки в Telegram или браузере
+                if (isInTelegram && tg.showPopup) {
+                    tg.showPopup({
+                        title: 'Ошибка валидации',
+                        message: errorMessages.join('\n'),
+                        buttons: [{type: 'ok'}]
+                    });
+                } else {
+                    alert(errorMessages.join('\n'));
+                }
                 
                 if (tg.HapticFeedback) {
                     tg.HapticFeedback.notificationOccurred('error');
                 }
-            } else {
-                totalPriceError.textContent = '';
-            }
-            
-            if (isValid) {
+            } else if (isValid) {
                 console.log('Форма отправлена успешно');
                 
                 // Отправка данных в Telegram
@@ -473,8 +501,6 @@
                 }
                 
                 console.log('Отправленные данные:', orders);
-            } else if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('error');
             }
         });
         

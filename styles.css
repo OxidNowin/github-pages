@@ -275,3 +275,23 @@ input {
     font-weight: 500;
     font-size: 18px;
 }
+
+.has-error {
+    border: 1px solid var(--destructive-text-color) !important;
+    background-color: rgba(255, 59, 48, 0.05) !important;
+}
+
+.error {
+    color: var(--destructive-text-color);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.total-price-container.has-error {
+    background-color: rgba(255, 59, 48, 0.1);
+    border: 1px solid var(--destructive-text-color);
+}
+
+.total-price-container.has-error .total-text {
+    color: var(--destructive-text-color);
+}
